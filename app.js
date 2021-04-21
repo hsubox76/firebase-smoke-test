@@ -16,9 +16,13 @@ import { config, testAccount } from "./firebase-config";
  */
 
 /**
+ * Auth smoke test.
+ * 
  * Login with email and password. Account must exist. Should set up
  * test project rules to only allow read/writes from this account
  * (and other test accounts), to properly test rules.
+ * 
+ * Logout after all tests are done.
  */
 async function authLogin() {
   const cred = await firebase
@@ -27,9 +31,18 @@ async function authLogin() {
   console.log("[AUTH] Logged in with test account", cred.user.email);
   return cred;
 }
+async function authLogout() {
+  console.log("[AUTH] Logging out user");
+  return firebase.auth.signOut();
+}
 
-// This cloud function must be deployed in this project first. It can be
-// found in this repo's /functions folder.
+/**
+ * Functions smoke test.
+ * 
+ * Call a deployed function.
+ * This cloud function must be deployed in this project first. It can be
+ * found in this repo's /functions folder.
+ */
 async function callFunctions() {
   console.log("[FUNCTIONS] start");
   const functions = firebase.functions();
@@ -196,6 +209,7 @@ async function main() {
   callInstallations();
   callPerformance();
   await callFunctions();
+  await authLogout();
   console.log("DONE");
 }
 
