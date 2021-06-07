@@ -3,7 +3,7 @@ var path = require("path");
 module.exports = [
   {
     mode: "development",
-    entry: "./app.js",
+    entry: "./app-compat.js",
     output: {
       path: path.resolve(__dirname, "build"),
       filename: "app.bundle.js"
@@ -29,7 +29,7 @@ module.exports = [
       ]
     },
     resolve: {
-      mainFields: ["browser", "main"]
+      mainFields: ["browser", "module", "main"]
     },
     stats: {
       colors: true

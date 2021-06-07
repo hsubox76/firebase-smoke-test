@@ -1,13 +1,12 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/analytics";
-import "firebase/functions";
-import "firebase/storage";
-import "firebase/firestore";
-import "firebase/messaging";
-import "firebase/performance";
-import "firebase/installations";
-import "firebase/database";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/analytics";
+import "firebase/compat/functions";
+import "firebase/compat/storage";
+import "firebase/compat/firestore";
+import "firebase/compat/messaging";
+import "firebase/compat/performance";
+import "firebase/compat/database";
 import { config, testAccount } from "./firebase-config";
 
 /**
@@ -17,11 +16,11 @@ import { config, testAccount } from "./firebase-config";
 
 /**
  * Auth smoke test.
- * 
+ *
  * Login with email and password. Account must exist. Should set up
  * test project rules to only allow read/writes from this account
  * (and other test accounts), to properly test rules.
- * 
+ *
  * Logout after all tests are done.
  */
 async function authLogin() {
@@ -33,12 +32,12 @@ async function authLogin() {
 }
 async function authLogout() {
   console.log("[AUTH] Logging out user");
-  return firebase.auth.signOut();
+  return firebase.auth().signOut();
 }
 
 /**
  * Functions smoke test.
- * 
+ *
  * Call a deployed function.
  * This cloud function must be deployed in this project first. It can be
  * found in this repo's /functions folder.
@@ -60,6 +59,7 @@ async function callStorage() {
   const storage = firebase.storage();
   const storageRef = storage.ref("/test.txt");
   await storageRef.putString("efg");
+  await new Promise(resolve => setTimeout(resolve, 1000));
   const url = await storageRef.getDownloadURL();
   console.log("[STORAGE] download url", url);
   const response = await fetch(url);
@@ -76,6 +76,9 @@ async function callStorage() {
 async function callFirestore() {
   console.log("[FIRESTORE] start");
   const firestore = firebase.firestore();
+  firestore.collection("testCollection").doc("trueDoc").set({
+    testbool: true,
+  }).then(() => { console.log('done')}).catch((err) => console.log('oops'));
   await firestore.collection("testCollection").doc("trueDoc").set({
     testbool: true,
   });
@@ -166,17 +169,6 @@ function callAnalytics() {
 
 /**
  * Analytics smoke test.
- * Just make sure a function can be called without obvious errors.
- */
-function callInstallations() {
-  console.log("[INSTALLATIONS] start");
-  firebase.installations();
-  console.log("[INSTALLATIONS] token refresh");
-  firebase.installations().getToken(true);
-}
-
-/**
- * Analytics smoke test.
  * Just make sure some functions can be called without obvious errors.
  */
 function callPerformance() {
@@ -206,7 +198,6 @@ async function main() {
   await callDatabase();
   await callMessaging();
   callAnalytics();
-  callInstallations();
   callPerformance();
   await callFunctions();
   await authLogout();
