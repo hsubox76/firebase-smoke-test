@@ -76,9 +76,6 @@ async function callStorage() {
 async function callFirestore() {
   console.log("[FIRESTORE] start");
   const firestore = firebase.firestore();
-  firestore.collection("testCollection").doc("trueDoc").set({
-    testbool: true,
-  }).then(() => { console.log('done')}).catch((err) => console.log('oops'));
   await firestore.collection("testCollection").doc("trueDoc").set({
     testbool: true,
   });
