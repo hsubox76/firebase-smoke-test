@@ -1,50 +1,34 @@
 module.exports = function (config) {
   config.set({
-    frameworks: ["webpack", "mocha"],
-    files: [{ pattern: "*.test.js", watched: false }],
+    frameworks: ["karma-typescript", "mocha"],
+    files: [{ pattern: "*.test.ts", watched: false }],
     preprocessors: {
-      "*.test.js": ["webpack"],
+      "*.test.ts": ["karma-typescript"],
     },
-    browsers: ['Chrome'],
+    browsers: ["Chrome"],
     singleRun: true,
     client: {
       mocha: {
-        timeout: 5000
-      }
-    },
-    webpack: {
-      mode: "development",
-      module: {
-        rules: [
-          {
-            test: /\.js$/,
-            loader: "babel-loader",
-            options: {
-              presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                    targets: {
-                      node: "10",
-                    },
-                  },
-                ],
-              ],
-            },
-          },
-        ],
-      },
-      resolve: {
-        mainFields: ["browser", "module", "main"],
-      },
-      stats: {
-        colors: true,
-      },
-      devtool: "source-map",
-      devServer: {
-        contentBase: "./build",
+        timeout: 5000,
       },
     },
-    plugins: ["karma-webpack", "karma-mocha", "karma-chrome-launcher"],
+    concurrency: 1,
+    karmaTypescriptConfig: {
+      bundlerOptions: {
+        transforms: [require("karma-typescript-es6-transform")({
+          presets: [
+           ["@babel/preset-env", {
+            targets: {
+             browsers: ["last 2 Chrome versions"]
+            }
+           }]
+          ]
+        })],
+      },
+      compilerOptions: {
+        allowJs: true,
+      },
+    },
+    plugins: ["karma-typescript", "karma-mocha", "karma-chrome-launcher"],
   });
 };

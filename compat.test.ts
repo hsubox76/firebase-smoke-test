@@ -9,17 +9,21 @@ import "firebase/compat/performance";
 import "firebase/compat/database";
 import { config, testAccount } from "./firebase-config";
 import "whatwg-fetch";
-import "chai/register-expect";
+import { expect } from 'chai';
+import { FirebaseApp } from "@firebase/app";
 
-describe("all", () => {
+describe("COMPAT", () => {
+  let app: FirebaseApp;
   before(() => {
     console.log("FIREBASE VERSION", firebase.SDK_VERSION);
-    firebase.initializeApp(config);
+    app = firebase.initializeApp(config);
     firebase.setLogLevel("warn");
   });
 
-  after(() => {
-    firebase.auth().signOut();
+  after(async () => {
+    await firebase.auth().signOut();
+    // @ts-ignore
+    await app.delete();
   });
 
   it("AUTH", async () => {
@@ -64,7 +68,7 @@ describe("all", () => {
     await firestore.collection("testCollection").doc("trueDoc").delete();
     await firestore.collection("testCollection").doc("falseDoc").delete();
     const testDocRef = firestore.doc("testCollection/testDoc");
-    let expectedSnap = {};
+    let expectedSnap: any = {};
     testDocRef.onSnapshot((snap) => {
       expect(snap.exists).to.equal(expectedSnap.exists);
       if (snap.exists) {
@@ -85,7 +89,7 @@ describe("all", () => {
   it("DATABASE", async () => {
     const db = firebase.database();
     const ref = db.ref("abc/def");
-    let expectedValue = {};
+    let expectedValue: any = {};
     ref.on("value", (snap) => {
       if (snap.exists()) {
         expect(snap.val()).to.deep.equal(expectedValue);
@@ -107,8 +111,7 @@ describe("all", () => {
   });
 
   it("ANALYTICS", async () => {
-    const isSupported = await firebase.analytics.isSupported();
-    console.log('isSupported', isSupported);
+    await firebase.analytics.isSupported();
     firebase.analytics().logEvent("begin_checkout");
   });
 
@@ -119,9 +122,5 @@ describe("all", () => {
     trace.stop();
     trace.putAttribute("testattr", "perftestvalue");
     expect(trace.getAttribute('testattr')).to.equal('perftestvalue');
-  });
-
-  it("MESSAGING", () => {
-    firebase.messaging();
   });
 });
