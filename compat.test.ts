@@ -159,7 +159,7 @@ describe("COMPAT", () => {
   });
 
   describe("PERFORMANCE", () => {
-    let performance: any;
+    let performance: firebase.performance.Performance;
     it("init performance", () => {
       performance = firebase.performance();
     });
