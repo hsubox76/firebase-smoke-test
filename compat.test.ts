@@ -10,10 +10,9 @@ import "firebase/compat/database";
 import { config, testAccount } from "./firebase-config";
 import "whatwg-fetch";
 import { expect } from 'chai';
-import { FirebaseApp } from "@firebase/app";
 
 describe("COMPAT", () => {
-  let app: FirebaseApp;
+  let app: firebase.app.App;
   before(() => {
     console.log("FIREBASE VERSION", firebase.SDK_VERSION);
     app = firebase.initializeApp(config);
@@ -22,7 +21,6 @@ describe("COMPAT", () => {
 
   after(async () => {
     await firebase.auth().signOut();
-    // @ts-ignore
     await app.delete();
   });
 
