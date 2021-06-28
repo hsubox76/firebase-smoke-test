@@ -1,5 +1,6 @@
 const functions = require("firebase-functions");
 
-exports.callTest = functions.https.onCall(() => {
-    return({ word: "hellooo" });
+exports.onNpmPublish = functions.https.onRequest((req, res) => {
+  console.log(req.body);
+  res.end();
 });
