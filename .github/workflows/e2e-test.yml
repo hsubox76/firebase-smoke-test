@@ -26,7 +26,6 @@ jobs:
     - name: Write project config
       env:
         PROJECT_CONFIG: ${{ secrets.TEST_PROJECT_CONFIG }}
-      env:
         TEST_ACCOUNT: ${{ secrets.TEST_ACCOUNT }}
       run: |
         echo "export const config = $PROJECT_CONFIG; export const testAccount = $TEST_ACCOUNT" > firebase-config.js
