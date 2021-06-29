@@ -55,7 +55,6 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { config, testAccount } from "./firebase-config";
-import "whatwg-fetch";
 import "chai/register-expect";
 import { expect } from "chai";
 

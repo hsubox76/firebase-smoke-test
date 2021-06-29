@@ -8,7 +8,6 @@ import "firebase/compat/messaging";
 import "firebase/compat/performance";
 import "firebase/compat/database";
 import { config, testAccount } from "./firebase-config";
-import "whatwg-fetch";
 import { expect } from "chai";
 
 describe("COMPAT", () => {
@@ -55,7 +54,7 @@ describe("COMPAT", () => {
     let storage: firebase.storage.Storage;
     let storageRef: firebase.storage.Reference;
     let url: string;
-    it("init firestore", () => {
+    it("init storage", () => {
       storage = firebase.storage();
     });
     it("putString()", async () => {
