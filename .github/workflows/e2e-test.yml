@@ -1,0 +1,31 @@
+name: E2E Smoke Tests
+
+on: workflow_dispatch
+
+jobs:
+  test:
+    name: Run E2E Smoke Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@main
+      with:
+        # This makes Actions fetch all Git history so run-changed script can diff properly.
+        fetch-depth: 0
+    - name: Set up Node (12)
+      uses: actions/setup-node@v2
+      with:
+        node-version: 12.x
+    - name: install Chrome stable
+      run: |
+        sudo apt-get update
+        sudo apt-get install google-chrome-stable
+    - name: Bump Node memory limit
+      run: echo "NODE_OPTIONS=--max_old_space_size=4096" >> $GITHUB_ENV
+    - name: Test setup and yarn install
+      run: |
+        cp config/ci.config.json config/project.json
+        yarn
+    - name: Run tests
+      run: xvfb-run yarn test
