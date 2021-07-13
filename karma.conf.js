@@ -13,7 +13,7 @@ module.exports = function (config) {
     frameworks: ["karma-typescript", "mocha"],
     files: [{ pattern: getTestFilePattern(process.argv), watched: false }],
     preprocessors: {
-      "*.test.ts": ["karma-typescript"],
+      "./tests/*.test.ts": ["karma-typescript"],
     },
     browsers: ["Chrome"],
     singleRun: true,
@@ -22,6 +22,7 @@ module.exports = function (config) {
         timeout: 5000,
       },
     },
+    customContextFile: './context.html',
     reporters: ["spec"],
     specReporter: {
       maxLogLines: 5,         // limit number of lines logged per test

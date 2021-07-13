@@ -1,17 +1,17 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/analytics";
+import "firebase/compat/app-check";
 import "firebase/compat/functions";
 import "firebase/compat/storage";
 import "firebase/compat/firestore";
 import "firebase/compat/messaging";
 import "firebase/compat/performance";
 import "firebase/compat/database";
-import { config, testAccount } from "./firebase-config";
+import { config, testAccount } from "../firebase-config";
 
 /**
- * Smoke tests. These are very minimal and mostly just ensure that
- * each product is registered and initialized without errors.
+ * Quick sample app to debug and explore basic Firebase API usage/problems.
  */
 
 /**
@@ -165,6 +165,16 @@ function callAnalytics() {
 }
 
 /**
+ * App Check smoke test.
+ * Just make sure some functions can be called without obvious errors.
+ */
+function callAppCheck() {
+  console.log("[APP CHECK] start");
+  firebase.appCheck().activate('6LeQ87AaAAAAAPutpKHMwFs5wD4UxmenWvpujtt5');
+  console.log("[APP CHECK] activated");
+}
+
+/**
  * Analytics smoke test.
  * Just make sure some functions can be called without obvious errors.
  */
@@ -189,6 +199,7 @@ async function main() {
   const app = firebase.initializeApp(config);
   firebase.setLogLevel("warn");
 
+  callAppCheck();
   await authLogin();
   await callStorage();
   await callFirestore();

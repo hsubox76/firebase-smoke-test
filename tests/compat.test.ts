@@ -1,13 +1,14 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/analytics";
+import "firebase/compat/app-check";
 import "firebase/compat/functions";
 import "firebase/compat/storage";
 import "firebase/compat/firestore";
 import "firebase/compat/messaging";
 import "firebase/compat/performance";
 import "firebase/compat/database";
-import { config, testAccount } from "./firebase-config";
+import { config, testAccount } from "../firebase-config";
 import { expect } from "chai";
 
 describe("COMPAT", () => {
@@ -35,6 +36,19 @@ describe("COMPAT", () => {
       );
       console.log("Logged in with test account", cred.user.email);
       expect(cred.user.email).to.equal(testAccount.email);
+    });
+  });
+
+  describe("APP CHECK", async () => {
+    // @ts-ignore
+    let appCheck: firebase.appCheck.appCheck;
+    it("init appCheck", () => {
+      // @ts-ignore
+      appCheck = firebase.appCheck();
+    });
+    it("activate()", async () => {
+      // Test uses debug token, any string is fine here.
+      appCheck.activate('asdf');
     });
   });
 

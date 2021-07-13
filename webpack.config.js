@@ -1,3 +1,6 @@
+/**
+ * This config is used for the sample app. The tests do not use webpack.
+ */
 var path = require("path");
 
 module.exports = [

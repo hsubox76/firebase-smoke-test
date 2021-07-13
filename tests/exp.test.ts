@@ -13,6 +13,12 @@ import {
   signOut,
 } from "firebase/auth";
 import {
+  initializeAppCheck,
+  AppCheck,
+  ReCaptchaV3Provider,
+  getToken
+} from "firebase/app-check";
+import {
   getAnalytics,
   logEvent,
   isSupported as analyticsIsSupported,
@@ -54,7 +60,7 @@ import {
   StorageReference,
   deleteObject,
 } from "firebase/storage";
-import { config, testAccount } from "./firebase-config";
+import { config, testAccount } from "../firebase-config";
 import "chai/register-expect";
 import { expect } from "chai";
 
@@ -87,6 +93,17 @@ describe("EXP", () => {
       );
       console.log("Logged in with test account", cred.user.email);
       expect(cred.user.email).to.equal(testAccount.email);
+    });
+  });
+
+  describe("APP CHECK", async () => {
+    let appCheck: AppCheck;
+    it("init appCheck", () => {
+      // Test uses debug token, any string is fine here.
+      appCheck = initializeAppCheck(app, { provider: new ReCaptchaV3Provider('fsad')})
+    });
+    it("getToken()", async () => {
+      await getToken(appCheck);
     });
   });
 

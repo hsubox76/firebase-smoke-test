@@ -9,12 +9,12 @@
     "test:exp": "karma start --exp",
     "watch": "webpack --watch",
     "build": "webpack",
-    "start": "webpack-dev-server"
+    "start": "webpack serve"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "firebase": "9.0.0-beta.1"
+    "firebase": "9.0.0-beta.6"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",

@@ -68,3 +68,4 @@ build/*.js
 build/*.map
 
 firebase-config.js
+app-check-debug-token.js
