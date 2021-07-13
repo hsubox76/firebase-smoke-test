@@ -1,9 +1,9 @@
 function getTestFilePattern(argv) {
-  let pattern = "*.test.ts";
+  let pattern = "./tests/*.test.ts";
   if (argv.includes("--compat")) {
-    pattern = "compat.test.ts";
+    pattern = "./tests/compat.test.ts";
   } else if (argv.includes("--exp")) {
-    pattern = "exp.test.ts";
+    pattern = "./tests/exp.test.ts";
   }
   return pattern;
 }
