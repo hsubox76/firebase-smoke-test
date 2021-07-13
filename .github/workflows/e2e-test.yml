@@ -29,8 +29,7 @@ jobs:
         TEST_ACCOUNT: ${{ secrets.TEST_ACCOUNT }}
         RECAPTCHA_SITE_KEY: ${{ secrets.APP_CHECK_DEBUG_TOKEN }}
       run: |
-        echo "export const config = $PROJECT_CONFIG;\n" > firebase-config.js
-        echo "export const testAccount = $TEST_ACCOUNT;\n" >> firebase-config.js
+        echo "export const config = $PROJECT_CONFIG; export const testAccount = $TEST_ACCOUNT" > firebase-config.js
         sed -i -e "s/APP_CHECK_DEBUG_TOKEN/$APP_CHECK_DEBUG_TOKEN/g" context.html
     - name: Yarn install
       run: |
