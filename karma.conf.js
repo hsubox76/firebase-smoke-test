@@ -35,6 +35,11 @@ module.exports = function (config) {
     concurrency: 1,
     karmaTypescriptConfig: {
       bundlerOptions: {
+        resolve: {
+          alias: {
+            '@firebase/messaging/sw': 'node_modules/@firebase/messaging/dist/index.sw.esm2017.js'
+          },
+        },
         transforms: [
           require("karma-typescript-es6-transform")({
             presets: [
